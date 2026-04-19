@@ -1,29 +1,24 @@
 {
   "name": "breakout",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "tauri": "tauri",
-    "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2.10.1",
-    "@vitest/coverage-v8": "^4.1.4",
-    "jsdom": "^29.0.2",
-    "typescript": "~6.0.2",
-    "vite": "^8.0.4",
-    "vitest": "^4.1.4"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "phaser": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.0",
+    "vitest": "^1.5.0",
+    "@vitest/coverage-v8": "^1.5.0"
   }
 }

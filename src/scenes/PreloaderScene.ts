@@ -1,7 +1,12 @@
+/**
+ * PreloaderScene.ts — Generates all game textures programmatically.
+ * Also handles audio context unlocking for browser targets.
+ */
 import { Scene } from 'phaser';
 import { SceneKeys } from '../config/SceneKeys';
 import { AssetKeys } from '../config/AssetKeys';
 import { Balance } from '../config/Balance';
+import { Platform } from '../systems/Platform';
 
 export const PreloaderScene: any = {
   key: SceneKeys.PRELOADER,
@@ -13,7 +18,28 @@ export const PreloaderScene: any = {
     generateBallTexture(self);
     generatePaddleTexture(self);
     generateBrickTexture(self);
-    self.scene.start(SceneKeys.GAME);
+
+    if (Platform.isDesktop()) {
+      // Tauri: audio context is available immediately — proceed straight away
+      self.scene.start(SceneKeys.GAME);
+    } else {
+      // Browser: audio context requires a user gesture before it unlocks.
+      // Listen for Phaser's built-in unlock event and transition then.
+      // If audio is already unlocked (e.g. user clicked before preload finished),
+      // the event will never fire — so also start immediately in that case.
+      const audioManager = self.sound as unknown as {
+        locked: boolean;
+        once: (event: string, cb: () => void) => void;
+      };
+
+      if (!audioManager.locked) {
+        self.scene.start(SceneKeys.GAME);
+      } else {
+        audioManager.once('unlocked', () => {
+          self.scene.start(SceneKeys.GAME);
+        });
+      }
+    }
   },
 };
 

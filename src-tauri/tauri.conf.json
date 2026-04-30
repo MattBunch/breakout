@@ -23,6 +23,11 @@
       "csp": null
     }
   },
+  "plugins": {
+    "fs": {
+      "scope": ["$APPDATA/*"]
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
